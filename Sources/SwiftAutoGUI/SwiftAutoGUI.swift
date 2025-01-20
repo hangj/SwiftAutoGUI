@@ -92,7 +92,7 @@ public class SwiftAutoGUI {
     public static func moveMouse(dx: CGFloat, dy: CGFloat) {
         var mouseLoc = NSEvent.mouseLocation
         mouseLoc.y = NSHeight(NSScreen.screens[0].frame) - mouseLoc.y;
-        let newLoc = CGPoint(x: mouseLoc.x-CGFloat(dx), y: mouseLoc.y + CGFloat(dy))
+        let newLoc = CGPoint(x: mouseLoc.x + CGFloat(dx), y: mouseLoc.y + CGFloat(dy))
         CGDisplayMoveCursorToPoint(0, newLoc)
         Thread.sleep(forTimeInterval: 0.01)
     }
@@ -100,6 +100,8 @@ public class SwiftAutoGUI {
     /// Move the mouse to a specific position
     /// - Parameter to: This parameter is the `CGWindow` coordinate.
     public static func move(to: CGPoint) {
+        // Need to read the mouse location first, Or the following `CGDisplayMoveCursorToPoint(0, to)` call may stuck
+        let _ = NSEvent.mouseLocation
         CGDisplayMoveCursorToPoint(0, to)
         Thread.sleep(forTimeInterval: 0.01)
     }
